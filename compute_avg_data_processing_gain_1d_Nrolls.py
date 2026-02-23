@@ -4,7 +4,7 @@ import os
 
 fig_dir = "./figures/"
 
-fontsize=12
+fontsize=16
 plt.figure(figsize=(6, 6))
 color_list = ["#006699","#ff9900", "#6600ff", "purple", "grey"]
 
@@ -51,12 +51,16 @@ for id0,(delta0_over_b0_fixed,mycolor) in enumerate(zip(delta0_over_b0_list,colo
             integral = np.sum(integrand[1::]*t_diff)/(t[-1]-t[0])
             avg_gain.append(integral)
         avg_gain = np.array(avg_gain)
-        if id1 == 0:
-            plt.text(p_over_b0_vals[0], avg_gain[0],f'$\Delta_0/b_0 = {delta0_over_b0_fixed}$', fontsize=10, color='black', ha='left', va='bottom')
+        if id1 == 0 and id0 == 0:
+            plt.text(p_over_b0_vals[0], avg_gain[0],f'$\Delta_0/b_0 = {delta0_over_b0_fixed}$', fontsize=fontsize,
+                     color='black', ha='left', va='top')
+        if id1 == 3 and id0 != 0:
+            plt.text(p_over_b0_vals[0], avg_gain[0], f'$\Delta_0/b_0 = {delta0_over_b0_fixed}$', fontsize=fontsize,
+                     color='black', ha='left', va='bottom')
         if id0 ==0:
-            plt.plot(p_over_b0_vals, avg_gain,linestyle=ls,linewidth=1,color=mycolor,label=f"$N_\\theta={N_theta}$")
+            plt.plot(p_over_b0_vals, avg_gain,linestyle=ls,linewidth=2,color=mycolor,label=f"$N_\\theta={N_theta}$")
         else:
-            plt.plot(p_over_b0_vals, avg_gain,linestyle=ls,linewidth=1,color=mycolor)
+            plt.plot(p_over_b0_vals, avg_gain,linestyle=ls,linewidth=2,color=mycolor)
 
 plt.legend(loc="upper right",fontsize=fontsize)
 plt.xscale('log')
@@ -64,7 +68,7 @@ plt.xlabel('$p/b_0$',fontsize=fontsize)
 plt.gca().tick_params(axis='x', labelsize=fontsize)
 plt.gca().tick_params(axis='y', labelsize=fontsize)
 plt.ylabel('Average gain (<g>)',fontsize=fontsize)
-plt.grid(True, which='both', ls='--', alpha=0.75)
+# plt.grid(True, which='both', ls='--', alpha=0.75)
 plt.tight_layout()
 
 out_filename = os.path.join(fig_dir, "average_ppgain_Nrolls.png")
